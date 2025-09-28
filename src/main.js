@@ -28,23 +28,52 @@ function groupBy(array, keyFn) {
 }
 
 const sellerStats = groupBy(data.purchase_records, record => record.seller_id);
+const productsStats = groupBy(data.products, record => record.sku);
 
+console.log(productsStats);
 console.log(sellerStats);
 
+
+
+function calculateProfit(item) {
+    console.log(item.sku)
+   return profit = item.sale_price * item.quantity * (1 - item.discount / 100) - productsStats[item.sku][0].purchase_price * item.quantity;
+};
+calculateProfit(sellerStats.seller_1[0].items[0]);
+console.log(profit);
+
+
+// функция расчета прибыли
+
+// function calculateProfit(item, product) {
     
+// }
+
+// function calculateRevenue(seller_id, )   
+//      sellerStats[seller_id].forEach(receipt => {
+    // calculateSimpleRevenue(receipt, )
 
 
 
 
+
+
+//     const product = products.find(p => p.sku === item.sku)
+//     const profit = calculateSimpleRevenue(item, product);
+//     return profit;
+// })
+
+// calculateRevenue("seller_1")
+
+// sellerStats.seller_1.forEach(item
 
 //  * Функция для расчета выручки
 //  * @param purchase запись о покупке
 //  * @param _product карточка товара
 //  * @returns {number}
 //  */
-function calculateSimpleRevenue(purchase, _product) {
-   // @TODO: Расчет выручки от операции
-}
+
+// }
 
 /**
  * Функция для расчета бонусов
@@ -55,7 +84,7 @@ function calculateSimpleRevenue(purchase, _product) {
  */
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
-    // 15% — для продавца, который принёс наибольшую прибыль.
+    // %15 — для продавца, который принёс наибольшую прибыль.
     // 10% — для продавцов, которые по прибыли находятся на втором и третьем месте.
     // 5% — для всех остальных продавцов, кроме самого последнего.
     // 0% — для продавца на последнем месте.
