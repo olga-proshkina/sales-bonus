@@ -1,79 +1,16 @@
-
-//  if (!data || !Array.isArray(data.sellers) || data.sellers.length === 0) { 
-//     throw new Error('Некорректные входные данные');
-// } 
-
-// //  const { calculateRevenue, calculateBonus } = options;
-
-//  if (typeof options === !"object" || typeof calculateRevenue === !"function") {
-//      throw new Error('Некорректные входные данные');
-//  }
-
-//  if (!{ calculateRevenue, calculateBonus } || !otherVar) {
-//     throw new Error('Чего-то не хватает');
-// }
-
-function groupBy(array, keyFn) {
-
-    // @param array -- массив данных
-    // @param keyFn -- ключ сорторовки
-    // @returns {*} -- на выходе получаем объект, например: {seller_id: [], ....}
-  
-   return array.reduce((acc, item) => {
-    const key = keyFn(item);
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-   }, {});
+/**
+ * Функция для расчета выручки
+ * @param purchase запись о покупке
+ * @param _product карточка товара
+ * @returns {number}
+ */
+function calculateSimpleRevenue(purchase, _product) {
+    // @TODO: Расчет выручки от операции
+    const { discount, sale_price, quantity } = purchase;
+    const { purchase_price } = _product;
+    let simpleRevenue = sale_price * quantity * (1 - discount / 100) - purchase_price * quantity;
+    return simpleRevenue;
 }
-
-const sellerStats = groupBy(data.purchase_records, record => record.seller_id);
-const productsStats = groupBy(data.products, record => record.sku);
-
-console.log(productsStats);
-console.log(sellerStats);
-
-
-
-function calculateProfit(item) {
-    console.log(item.sku)
-   return profit = item.sale_price * item.quantity * (1 - item.discount / 100) - productsStats[item.sku][0].purchase_price * item.quantity;
-};
-calculateProfit(sellerStats.seller_1[0].items[0]);
-console.log(profit);
-
-
-// функция расчета прибыли
-
-// function calculateProfit(item, product) {
-    
-// }
-
-// function calculateRevenue(seller_id, )   
-//      sellerStats[seller_id].forEach(receipt => {
-    // calculateSimpleRevenue(receipt, )
-
-
-
-
-
-
-//     const product = products.find(p => p.sku === item.sku)
-//     const profit = calculateSimpleRevenue(item, product);
-//     return profit;
-// })
-
-// calculateRevenue("seller_1")
-
-// sellerStats.seller_1.forEach(item
-
-//  * Функция для расчета выручки
-//  * @param purchase запись о покупке
-//  * @param _product карточка товара
-//  * @returns {number}
-//  */
-
-// }
 
 /**
  * Функция для расчета бонусов
@@ -84,11 +21,21 @@ console.log(profit);
  */
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
-    // %15 — для продавца, который принёс наибольшую прибыль.
-    // 10% — для продавцов, которые по прибыли находятся на втором и третьем месте.
-    // 5% — для всех остальных продавцов, кроме самого последнего.
-    // 0% — для продавца на последнем месте.
     const { profit } = seller;
+    let x;
+    if (index === total - 1) {
+        x = 0;
+    }
+    else if (index === 1 || index === 2) {
+        x = 0.1;
+    }
+    else if (index === 0) {
+        x = 0.15;
+    } 
+    else {
+        x = 0.05;
+    }
+    return profit * x;
 }
 
 /**
@@ -99,7 +46,6 @@ function calculateBonusByProfit(index, total, seller) {
  */
 function analyzeSalesData(data, options) {
     // @TODO: Проверка входных данных
-    const { calculateRevenue, calculateBonus } = options;
 
     // @TODO: Проверка наличия опций
 

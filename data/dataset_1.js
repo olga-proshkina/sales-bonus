@@ -1,4 +1,4 @@
- const data = {
+  const data = {
     "customers": [
         {
             "id": "customer_1",
