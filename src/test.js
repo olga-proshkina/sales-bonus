@@ -25,14 +25,28 @@ function groupBy(array, keyFn) {
   }, {});
 }
 
-const sellerStats = groupBy(
-  data.purchase_records,
-  (record) => record.seller_id
-);
+// const sellerStats = groupBy(
+//   data.purchase_records,
+//   (record) => record.seller_id
+// );
 const productsStats = groupBy(data.products, (record) => record.sku);
+const sellerStats = groupBy(data.sellers, (record) => record.id);
 
 console.log(productsStats);
 console.log(sellerStats);
+
+function analyseReceipt(data) {
+  const seller = {};
+  seller.seller_id = data.purchase_records[0].seller_id;
+  seller.name = sellerStats[seller.seller_id][0].first_name + " " + sellerStats[seller.seller_id][0].last_name;
+  seller.revenue = calculateRevenueByReciept(data.purchase_records[0]);
+  seller.profit = calculateProfitByReciept(data.purchase_records[0]);
+  // seller.sales_count = // Количество продаж
+  // seller.top_products = 
+  seller.bonus = calculateBonusByProfit(0, 5, seller)
+  return seller;
+}
+console.log(analyseReceipt(data));
 
 // function calculateProfit(item) {
 //    let profit = item.sale_price * item.quantity * (1 - item.discount / 100) - productsStats[item.sku][0].purchase_price * item.quantity;
@@ -40,7 +54,14 @@ console.log(sellerStats);
 // }
 // calculateProfit(sellerStats.seller_1[0].items[0]);
 // console.log(profit);
-function calculateSimpleRevenue(purchase, _product) {
+function calculateSimpleRevenue(purchase) {
+  // @TODO: Расчет выручки от операции
+  const { discount, sale_price, quantity } = purchase;
+  let simpleProfit =
+    sale_price * quantity * (1 - discount / 100);
+  return simpleProfit;
+}
+function calculateSimpleProfit(purchase, _product) {
   // @TODO: Расчет выручки от операции
   const { discount, sale_price, quantity } = purchase;
   const { purchase_price } = _product;
@@ -48,13 +69,24 @@ function calculateSimpleRevenue(purchase, _product) {
     sale_price * quantity * (1 - discount / 100) - purchase_price * quantity;
   return simpleRevenue;
 }
+function calculateRevenueByReciept(reciept) {
+  let totalRevenueByReciept = reciept.items.reduce(
+    (totalRevenue, currentItem) => {
+      totalRevenue = totalRevenue +
+        calculateSimpleRevenue(currentItem);
+      return totalRevenue;
+    },
+    0
+  );
+  return totalRevenueByReciept;
+}
 
 function calculateProfitByReciept(reciept) {
   let totalProfitByReciept = reciept.items.reduce(
     (totalProfit, currentItem) => {
       totalProfit =
         totalProfit +
-        calculateSimpleRevenue(currentItem, productsStats[currentItem.sku][0]);
+        calculateSimpleProfit(currentItem, productsStats[currentItem.sku][0]);
       return totalProfit;
     },
     0
