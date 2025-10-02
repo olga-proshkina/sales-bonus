@@ -43,29 +43,7 @@ function calculateSimpleProfit(purchase, _product) {
   return simpleRevenue;
 }
 
-// function calculateRevenueByReciept(reciept) {
-//   let totalRevenueByReciept = reciept.items.reduce(
-//     (totalRevenue, currentItem) => {
-//       totalRevenue = totalRevenue + calculateSimpleRevenue(currentItem);
-//       return totalRevenue;
-//     },
-//     0
-//   );
-//   return totalRevenueByReciept;
-// }
 
-// function calculateProfitByReciept(reciept, _product) {
-//   let totalProfitByReciept = reciept.items.reduce(
-//     (totalProfit, currentItem) => {
-//       totalProfit =
-//         totalProfit +
-//         calculateSimpleProfit(currentItem, productsStats[currentItem.sku][0]);
-//       return totalProfit;
-//     },
-//     0
-//   );
-//   return totalProfitByReciept;
-// }
 
 function groupBy(array, keyFn) {
   // @param array -- массив данных
@@ -198,10 +176,3 @@ function analyzeSalesData(data, options) {
   });
   return resultArray;
 }
-
-console.log(
-  analyzeSalesData(data, {
-    calculateRevenue: calculateSimpleRevenue,
-    calculateBonus: calculateBonusByProfit,
-  })
-);
