@@ -132,8 +132,9 @@ data.sellers.forEach((element) => {
     let totalRevenueByReciept = currentReciept.items.reduce(
       (totalRevenue, currentItem) => {
         totalRevenue = totalRevenue + calculateRevenue(currentItem);
+        // return Number.parseFloat(totalRevenue.toFixed(2));
         return totalRevenue;
-      },
+    },
       0
     );
     let totalProfitByReciept = currentReciept.items.reduce(
@@ -185,9 +186,14 @@ data.sellers.forEach((element) => {
     element.top_products = Object.values(element.top_products);
     toSort(element.top_products, "quantity");
     element.top_products = element.top_products.slice(0, 10);
-    element.profit = Number.parseFloat(element.profit.toFixed(2));
-    element.revenue = Number.parseFloat(element.revenue.toFixed(2));
-    element.bonus = Number.parseFloat(element.bonus.toFixed(2));
+    // element.profit = Math.trunc(element.profit*100)/100;
+    // element.revenue = Math.trunc(element.revenue*100)/100;
+    // element.bonus = Math.trunc(element.bonus*100)/100;
+    // element.revenue = Number.parseFloat(element.revenue.toFixed(2));
+    // element.profit = Number.parseFloat(element.profit.toFixed(2));
+    element.bonus = +(element.bonus.toFixed(2));
+    element.revenue = +(element.revenue.toFixed(2));
+    element.profit = +(element.profit.toFixed(2));
   });
   return resultArray;
 }
