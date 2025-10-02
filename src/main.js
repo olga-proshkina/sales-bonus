@@ -173,6 +173,9 @@ function analyzeSalesData(data, options) {
     element.top_products = Object.values(element.top_products);
     toSort(element.top_products, "quantity");
     element.top_products = element.top_products.slice(0, 10);
+    element.profit = Number.parseFloat(element.profit.toFixed(2));
+    element.revenue = Number.parseFloat(element.revenue.toFixed(2));
+    element.bonus = Number.parseFloat(element.bonus.toFixed(2));
   });
   return resultArray;
 }
