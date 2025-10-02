@@ -93,12 +93,24 @@ function analyzeSalesData(data, options) {
   ) {
     throw new Error("Некорректные входные данные");
   }
-
+  
   // @TODO: Подготовка промежуточных данных для сбора статистики
   const productsStats = groupBy(data.products, (record) => record.sku);
   const sellerStats = groupBy(data.sellers, (record) => record.id);
 
   // @TODO: Индексация продавцов и товаров для быстрого доступа
+const sellerNew = {};
+data.sellers.forEach((element) => {
+    sellerNew[element.id]= {
+        seller_id: element.id,
+        name: element.first_name + " " + element.last_name,  
+        revenue: 0,
+        profit: 0,
+        sales_count: 0,
+        top_products: {},
+        bonus: 0}; 
+  })
+  
 
   // @TODO: Расчет выручки и прибыли для каждого продавца
   const result = data.purchase_records.reduce((seller, currentReciept) => {
@@ -154,7 +166,7 @@ function analyzeSalesData(data, options) {
       seller[currentReciept.seller_id].top_products
     );
     return seller;
-  }, {});
+  }, sellerNew);
   // @TODO: Сортировка продавцов по прибыли
   const resultArray = Object.values(result);
   toSort(resultArray, "profit");
