@@ -86,7 +86,44 @@ const result = data.purchase_records.reduce((seller, currentReciept) => {
     );
   return seller;
 }, {});
-console.log(result);
+
+
+const resultArray = Object.values(result)
+// resultArray[0].top_products = Object.values(resultArray[0].top_products);
+resultArray.forEach((element) => { 
+  element.top_products = Object.values(element.top_products);
+  toSort(element.top_products, "quantity");
+  element.top_products = element.top_products.slice(0, 10);
+}) 
+
+
+
+function toSort(array, field) {
+  array.sort((a, b) => {
+    if (a[field] > b[field]) {
+      return -1;
+    }
+    if (a[field] < b[field]) {
+      return 1;
+    }
+    return 0;
+    
+  });
+}
+toSort(resultArray, "profit");
+for (i = 0; i < resultArray.length; i++) {
+  resultArray[i].bonus = calculateBonusByProfit(i, resultArray.length, resultArray[i]);
+}
+console.log(resultArray);
+
+toSort(Object.values(resultArray[0].top_products), "quantity");
+
+console.log(tp);
+console.log(toSort(resultArray, "profit"));
+console.log(toSort(tp, "quantity"));
+// console.log(toSort(, "quantity"))
+
+
 
 // function topProducts(reciept) {
 //   const topProducts10 = reciept.items.reduce((acc, currentItem) => {
