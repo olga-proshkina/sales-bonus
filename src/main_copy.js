@@ -67,7 +67,8 @@ function toSort(array, field) {
     return 0;
   });
 }
-
+let RevenueByReciept = data.purchase_records[0].total_amount - data.purchase_records[0].total_discount;
+console.log(RevenueByReciept)
 /**
  * Функция для анализа данных продаж
  * @param data
@@ -126,8 +127,8 @@ function analyzeSalesData(data, options) {
         bonus: 0,
       };
     }
-
- let RevenueByReciept = currentReciept.items.reduce(
+      
+    let RevenueByReciept = currentReciept.items.reduce(
       (totalRevenue, currentItem) => {
         totalRevenue = totalRevenue + calculateRevenue(currentItem);
         // return Number.parseFloat(totalRevenue.toFixed(2));
@@ -144,11 +145,11 @@ function analyzeSalesData(data, options) {
       },
       0
     );
-
+    // let RevenueByReciept = calculateSimpleRevenue(currentReciept);
     seller[currentReciept.seller_id].revenue += RevenueByReciept;
-    //   calculateRevenueByReciept(currentReciept);
+    
     seller[currentReciept.seller_id].profit += totalProfitByReciept;
-    //   calculateProfitByReciept(currentReciept);
+   
     seller[currentReciept.seller_id].sales_count =
       seller[currentReciept.seller_id].sales_count + 1;
     seller[currentReciept.seller_id].top_products = currentReciept.items.reduce(
@@ -189,5 +190,7 @@ function analyzeSalesData(data, options) {
     element.revenue = +element.revenue.toFixed(2);
     element.profit = +element.profit.toFixed(2);
   });
+  console.log(resultArray);
   return resultArray;
+  
 }

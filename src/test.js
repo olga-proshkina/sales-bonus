@@ -116,12 +116,8 @@ for (i = 0; i < resultArray.length; i++) {
 }
 console.log(resultArray);
 
-toSort(Object.values(resultArray[0].top_products), "quantity");
-
-console.log(tp);
-console.log(toSort(resultArray, "profit"));
-console.log(toSort(tp, "quantity"));
-// console.log(toSort(, "quantity"))
+// toSort(Object.values(resultArray[0].top_products), "quantity");
+//  console.log(toSort(, "quantity"))
 
 
 
@@ -150,6 +146,20 @@ console.log(toSort(tp, "quantity"));
 // }
 // calculateProfit(sellerStats.seller_1[0].items[0]);
 // console.log(profit);
+   
+const seller = {};
+data.sellers.forEach((element) => {
+    seller[element.id]= {
+        seller_id: element.id,
+        name: element.first_name + " " + element.last_name,  
+        revenue: 0,
+        profit: 0,
+        sales_count: 0,
+        top_products: {},
+        bonus: 0};
+        
+  })
+
 function calculateSimpleRevenue(purchase) {
   // @TODO: Расчет выручки от операции
   const { discount, sale_price, quantity } = purchase;
