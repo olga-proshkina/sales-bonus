@@ -77,7 +77,15 @@ function toSort(array, field) {
 function analyzeSalesData(data, options) {
   // @TODO: Проверка входных данных
 
-  if (!data || !Array.isArray(data.sellers) || data.sellers.length === 0 || !Array.isArray(data.products) || data.purchase_records.length === 0 || !Array.isArray(data.purchase_records) || data.products.length === 0) {
+  if (
+    !data ||
+    !Array.isArray(data.sellers) ||
+    data.sellers.length === 0 ||
+    !Array.isArray(data.products) ||
+    data.purchase_records.length === 0 ||
+    !Array.isArray(data.purchase_records) ||
+    data.products.length === 0
+  ) {
     throw new Error("Некорректные входные данные");
   }
   // @TODO: Проверка наличия опций
@@ -122,10 +130,10 @@ function analyzeSalesData(data, options) {
         profit: 0,
         sales_count: 0,
         top_products: {},
-        bonus: 0
+        bonus: 0,
       };
     }
- let RevenueByReciept = currentReciept.items.reduce(
+    let RevenueByReciept = currentReciept.items.reduce(
       (totalRevenue, currentItem) => {
         totalRevenue = totalRevenue + calculateRevenue(currentItem);
         // return Number.parseFloat(totalRevenue.toFixed(2));
