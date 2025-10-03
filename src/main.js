@@ -77,7 +77,7 @@ function toSort(array, field) {
 function analyzeSalesData(data, options) {
   // @TODO: Проверка входных данных
 
-  if (!data || !Array.isArray(data.sellers) || data.sellers.length === 0) {
+  if (!data || !Array.isArray(data.sellers) || data.sellers.length === 0 || !Array.isArray(data.products) || data.purchase_records.length === 0 || !Array.isArray(data.purchase_records) || data.products.length === 0) {
     throw new Error("Некорректные входные данные");
   }
   // @TODO: Проверка наличия опций
@@ -109,7 +109,6 @@ function analyzeSalesData(data, options) {
       bonus: 0,
     };
   });
-
   // @TODO: Расчет выручки и прибыли для каждого продавца
   const result = data.purchase_records.reduce((seller, currentReciept) => {
     if (!seller[currentReciept.seller_id]) {
@@ -123,10 +122,9 @@ function analyzeSalesData(data, options) {
         profit: 0,
         sales_count: 0,
         top_products: {},
-        bonus: 0,
+        bonus: 0
       };
     }
-
  let RevenueByReciept = currentReciept.items.reduce(
       (totalRevenue, currentItem) => {
         totalRevenue = totalRevenue + calculateRevenue(currentItem);
@@ -144,7 +142,6 @@ function analyzeSalesData(data, options) {
       },
       0
     );
-
     seller[currentReciept.seller_id].revenue += RevenueByReciept;
     //   calculateRevenueByReciept(currentReciept);
     seller[currentReciept.seller_id].profit += totalProfitByReciept;
